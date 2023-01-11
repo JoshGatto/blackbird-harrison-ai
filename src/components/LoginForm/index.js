@@ -8,19 +8,73 @@ import Grid from '@mui/material/Grid';
 import Snackbar from '@mui/material/Snackbar';
 import Typography from '@mui/material/Typography';
 import logo from '../../assets/logo.svg';
+import emailValidator from 'email-validator';
 
+function validateEmail(email) {
+  if (!email) {
+    return "Email is required";
+  }
+  return emailValidator.validate(email) ? "" : "Email is not valid!";
+}
+
+const validatePassword = (password) => {
+  let error = "";
+
+  if (password.length < 8) {
+    error = "Password must be at least 8 characters";
+    return error;
+  }
+  
+  if (!password.match(/[a-z]/)) {
+    error = "Password must contain at least one lowercase letter";
+    return error;
+  }
+  
+  if (!password.match(/[A-Z]/)) {
+    error = "Password must contain at least one uppercase letter";
+    return error;
+  }
+  
+  if (!password.match(/\d/)) {
+    error = "Password must contain at least one numerical digit";
+    return error;
+  }
+  
+  if (!password.match(/\d/)) {
+    error = "Password must contain at least one numerical digit";
+    return error;
+  }
+  
+  if (!password.match(/[!@#$%^&*]/)) {
+    error = "Password must contain at least one special character (!@#$%^&*)";
+    return error;
+  }
+  return error;
+}
 
 export default function LoginForm() {
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [showAlert, setShowAlert] = useState(false);
   const validateForm = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
     const password = data.get('password');
-
-    // Add validation code here
-
-  }
+    
+    const emailError = validateEmail(email);
+    const passwordError = validatePassword(password);
+  
+    setEmailError(emailError);
+    setPasswordError(passwordError);
+    
+    if (!emailError && !passwordError) {
+      setShowAlert("Login Successful");
+      setTimeout(() => setShowAlert(false), 6000);
+    } else {
+      setShowAlert(false);
+    }
+  }  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -30,7 +84,6 @@ export default function LoginForm() {
       password: data.get('password'),
     });
     validateForm(event);
-    setShowAlert("Login Successful");
   };
 
   return (
@@ -87,6 +140,8 @@ export default function LoginForm() {
               name="email"
               autoComplete="email"
               autoFocus
+              error={!!emailError}
+              helperText={emailError}
             />
             <TextField
               margin="normal"
@@ -97,6 +152,8 @@ export default function LoginForm() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={!!passwordError}
+              helperText={passwordError}
             />
             <Button
               type="submit"
