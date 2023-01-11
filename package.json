@@ -26,6 +26,11 @@
       "react-app/jest"
     ]
   },
+    "typeAcquisition": {
+      "include": [
+        "jest"
+      ]
+  },
   "browserslist": {
     "production": [
       ">0.2%",
@@ -40,5 +45,5 @@
   },
   "devDependencies": {
     "@types/jest": "^29.2.5"
-  }
+  } 
 }
