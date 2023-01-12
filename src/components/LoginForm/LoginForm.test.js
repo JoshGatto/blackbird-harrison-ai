@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react';
 import LoginForm from '.';
-import { validateEmail } from './index';
-import { validatePassword } from './index';
+import { validateEmail } from './validation';
+import { validatePassword } from './validation';
 import emailValidator from 'email-validator';  // import the email-validator package
 
 test('renders sign in page', () => {
