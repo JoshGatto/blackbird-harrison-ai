@@ -10,47 +10,33 @@ import Typography from '@mui/material/Typography';
 import logo from '../../assets/logo.svg';
 import emailValidator from 'email-validator';
 
-function validateEmail(email) {
+export function validateEmail(email) {
   if (!email) {
     return "Email is required";
   }
   return emailValidator.validate(email) ? "" : "Email is not valid!";
 }
 
-const validatePassword = (password) => {
-  let error = "";
+export const validatePassword = (password) => {
+    let error = "";
+    if (!password) {
+        error = "Password is required";
+        return error;
+    }
+    if (password.length < 8) {
+        error = "Password must be at least 8 characters";
+    } else if (!password.match(/[a-z]/)) {
+        error = "Password must contain at least one lowercase letter";
+    } else if (!password.match(/[A-Z]/)) {
+        error = "Password must contain at least one uppercase letter";
+    } else if (!password.match(/[0-9]/)) {
+        error = "Password must contain at least one numerical digit";
+    } else if (!password.match(/[!@#$%^&*]/)) {
+        error = "Password must contain at least one special character (!@#$%^&*)";
+    }
+    return error;
+};
 
-  if (password.length < 8) {
-    error = "Password must be at least 8 characters";
-    return error;
-  }
-  
-  if (!password.match(/[a-z]/)) {
-    error = "Password must contain at least one lowercase letter";
-    return error;
-  }
-  
-  if (!password.match(/[A-Z]/)) {
-    error = "Password must contain at least one uppercase letter";
-    return error;
-  }
-  
-  if (!password.match(/\d/)) {
-    error = "Password must contain at least one numerical digit";
-    return error;
-  }
-  
-  if (!password.match(/\d/)) {
-    error = "Password must contain at least one numerical digit";
-    return error;
-  }
-  
-  if (!password.match(/[!@#$%^&*]/)) {
-    error = "Password must contain at least one special character (!@#$%^&*)";
-    return error;
-  }
-  return error;
-}
 
 export default function LoginForm() {
   const [emailError, setEmailError] = useState('');
